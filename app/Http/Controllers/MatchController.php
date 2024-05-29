@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class MatchController extends Controller
 {
@@ -18,7 +19,25 @@ class MatchController extends Controller
         try {
             
             $data = $request->all();
-
+            $this->validate($request,[
+                '*.home_team' => 'required|integer',
+                '*.away_team' => 'required|integer',
+                '*.schedule' => 'required|date',
+                '*.statistics'=> 'required',
+                '*.statistics.home_team_goal' => 'required|integer',
+                '*.statistics.away_team_goal' => 'required|integer'
+            ], [
+                '*.home_team.required' => 'The home_team field is required',
+                '*.away_team.required' => 'The away_team field is required',
+                '*.schedule.required' => 'The schedule field is required',
+                '*.statistics.home_team_goal.required' => 'The home_team_goal field is required',
+                '*.statistics.away_team_goal.required' => 'The away_team_goal field is required',
+                '*.home_team.integer' => 'The home_team field type is integer',
+                '*.away_team.integer' => 'The away_team field type is integer',
+                '*.schedule.date' => 'The schedule field type is date',
+                '*.statistics.home_team_goal.integer' => 'The statistics.home_team_goal field type is integer',
+                '*.statistics.away_team_goal.integer' => 'The statistics.away_team_goal field type is integer',
+            ]);
             $records = [];
             foreach ($data as $key ) {
                 
@@ -83,10 +102,10 @@ class MatchController extends Controller
 
             DB::commit();
             return response()->json((object)['success' => true, 'data' => $records]);
-        } catch(\ValidationError $ve){
+        } catch(ValidationException $ve){
             DB::rollback();
             Log::error($ve);
-            return response()->json((object)['success' => false, 'message' => $ve->getMessage(), 'detail' => $ve]);
+            return response()->json((object)['success' => false, 'validationError'=> true, 'message' => $ve->getMessage(), 'detail' => $ve->errors()]);
         } catch (\Throwable $th) {
             DB::rollback();
             Log::error($th);
