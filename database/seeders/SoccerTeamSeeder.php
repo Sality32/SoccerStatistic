@@ -14,8 +14,7 @@ class SoccerTeamSeeder extends Seeder
      */
     public function run()
     {
-         
-        SoccerTeam::insert([
+        $data = [
             ['name' => 'Eagle United', 'city' => 'New York'],
             ['name' => 'Thunderbolts FC', 'city' => 'Los Angeles'],
             ['name' => 'Wildcats FC', 'city' => 'Chicago'],
@@ -36,6 +35,12 @@ class SoccerTeamSeeder extends Seeder
             ['name' => 'Tiger Tornadoes', 'city' => 'Seattle'],
             ['name' => 'Wolverine Wanderers', 'city' => 'Denver'],
             ['name' => 'Raging Bulls', 'city' => 'Washington']
-        ]);
+        ];
+        foreach ($data as $item) {
+            $team = SoccerTeam::create($item);
+            $team->classment()->create([
+                'team_id' => $team->id
+            ]);
+        }
     }
 }

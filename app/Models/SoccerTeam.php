@@ -15,12 +15,16 @@ class SoccerTeam extends Model
         'city'
     ];
 
-    public function matches()
+    public function homeMatches()
     {
-        return $this->hasMany(MatchResult::class);
+        return $this->hasMany(MatchResult::class, 'home_team_id');
+    }
+    public function awayMatches()
+    {
+        return $this->hasMany(MatchResult::class, 'away_team_id');
     }
     public function classment()
     {
-        return $this->hasOne(Classment::class);
+        return $this->hasOne(Classment::class, 'team_id');
     }
 }

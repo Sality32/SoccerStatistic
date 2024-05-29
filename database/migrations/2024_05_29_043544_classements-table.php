@@ -16,13 +16,14 @@ class ClassementsTable extends Migration
         Schema::create('classments', function(Blueprint $table){
             $table->bigIncrements('id');
             $table->unsignedBigInteger('team_id');
-            $table->integer('points');
-            $table->integer('win');
-            $table->integer('lose');
-            $table->integer('draw');
-            $table->integer('number_of_match');
-            $table->integer('home_goal');
-            $table->integer('away_goal');
+            $table->integer('points')->default(0);
+            $table->integer('win')->default(0);
+            $table->integer('lose')->default(0);
+            $table->integer('draw')->default(0);
+            $table->integer('number_of_match')->default(0);
+            $table->integer('home_goal')->default(0);
+            $table->integer('away_goal')->default(0);
+            $table->timestamps();
 
             $table->foreign('team_id')->references('id')->on('soccer_teams')->onDelete('cascade');
         });

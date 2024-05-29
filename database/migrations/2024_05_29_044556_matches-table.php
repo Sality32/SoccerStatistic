@@ -19,7 +19,7 @@ class MatchesTable extends Migration
             $table->unsignedBigInteger('away_team_id');
             $table->date('schedule');
             $table->json('statistics');
-
+            $table->timestamps();
             $table->foreign('home_team_id')->references('id')->on('soccer_teams')->onDelete('cascade');
             $table->foreign('away_team_id')->references('id')->on('soccer_teams')->onDelete('cascade');
         });

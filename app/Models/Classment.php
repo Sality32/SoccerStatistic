@@ -9,7 +9,7 @@ class Classment extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id';
-    protected $table = 'classment';
+    protected $table = 'classments';
     protected $fillable = [
         'id',
         'team_id',
