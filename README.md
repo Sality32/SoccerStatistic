@@ -7,7 +7,11 @@ How to run the project
 - Run mysql
 - Run in terminal
   > "composer install"
+  
   > "php artisan key:generate"
+  
   > "php artisan migrate"
+  
   > "php artisan db:seed"
+  
   > "php artisan serve"
